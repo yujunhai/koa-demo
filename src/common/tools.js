@@ -13,7 +13,8 @@ const tools = {
         return this.md5sum(name + Date.now().toString() + Math.random().toString());
     },
     GenerateAccessToken: function(user) {
-      const token = jwt.sign(user, settingConfig.secret.sign, { expiresIn:  settingConfig.redis.accessTokenExpireIn});
+        console.log(user)
+      const token = jwt.sign(user.toJSON(), settingConfig.secret.sign, { expiresIn:  settingConfig.redis.accessTokenExpireIn});
       redis.saveUserAccessToken(user.openid, token)
       return token;
     }

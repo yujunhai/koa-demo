@@ -41,12 +41,8 @@ const routes = [
           200: {
             body: {
               status: Joi.number().required(),
-              success: Joi.string().required()
-              // data: Joi.object({
-              //   access_token: String,
-              //   name: String,
-              //   openid: String
-              // }).optional().default({})
+              success: Joi.string().required(),
+              data: Joi.object().optional().default({})
             }
           }
         }

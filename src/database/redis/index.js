@@ -32,7 +32,7 @@ module.exports = {
       define.redisPrefix.ACCESS_TOKEN_KEY_PREFIX + openid,
       accessToken,
       "EX",
-      settings.redis.accessTokenExpireIn
+      settingConfig.redis.accessTokenExpireIn
     );
   },
 
