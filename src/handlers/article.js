@@ -1,6 +1,7 @@
 "use strict";
 const mongoose = require("mongoose");
 const PathModel = mongoose.model("Path");
+const ArticleModel = mongoose.model("Article");
 const redis = require(ROOT + "/src/database/redis/index.js");
 
 class ArticleHandler {
@@ -71,11 +72,18 @@ class ArticleHandler {
       if (path) {
         const res = await PathModel.DeletePathInfoByID(id);
         console.log(res);
-        ctx.body = {
-          status: 1,
-          success: "删除路径成功",
-          data: res
-        };
+        if (res) {
+          //删除成功之后也得把相应的文章删除
+          const result = await ArticleModel.DeleteArticleByPathId(id);
+          console.log(result);
+          if (result) {
+            ctx.body = {
+              status: 1,
+              success: "删除路径成功",
+              data: result
+            };
+          }
+        }
       } else {
         ctx.body = {
           status: 0,
@@ -105,6 +113,32 @@ class ArticleHandler {
         ctx.body = {
           status: 0,
           success: "暂无创建的路径"
+        };
+      }
+      return next();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  // 创建文章
+  static async CreateArticle(ctx, next) {
+    const { pathId, title, content, pictureUrl, openid} = ctx.request.body;
+
+    try {
+      const path = await PathModel.GetPathInfoByID(pathId);
+      if (path) {
+        const res = await ArticleModel.CreateArticle(pathId, title, content, pictureUrl, openid);
+        console.log(res);
+        ctx.body = {
+          status: 1,
+          success: "创建文章成功",
+          data: res
+        };
+      } else {
+        ctx.body = {
+          status: 0,
+          success: "pathId不存在"
         };
       }
       return next();

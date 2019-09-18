@@ -1,5 +1,10 @@
 __注：此项目纯属个人瞎搞，不用于任何商业用途。__
 
+to run this project,mongo and redis should be installed first, then open three terminal and input:
+mongod
+redis-server
+redis-cli (config set protected-mode no)
+
 ## 后台技术栈
 koa + mongodb + mongoose + nodejs
 
