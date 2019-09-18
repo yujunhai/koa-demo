@@ -56,8 +56,8 @@ const routes = [
         ctx.body = 'hello 444!';
     },
     pre: async (ctx, next) => {
-      await checkAuth(ctx);
-      return next();
+      // await checkAuth(ctx);
+      // return next();
     }
     // validate: {
     //   header: Joi.Object(),
