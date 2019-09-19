@@ -51,8 +51,8 @@ ArticleSchema.statics = {
         pictureUrl,
         status: 0
       };
-      await this.create(article);
-      return article;
+      const result = await this.create(article);
+      return result;
     } catch (e) {
       console.log(e);
       throw e;
@@ -60,118 +60,113 @@ ArticleSchema.statics = {
   },
 
   // 更新文章
-  UpdateArticleInfoById: async function(id, title, content, pictureUrl ) {
+  UpdateArticleInfoById: async function(id, title, content, pictureUrl) {
     try {
-        let article = await  model.update(
-            {_id: id,},
-            {$set:{title: title, pictureUrl: pictureUrl,content: content,updated_at:Date.now()}}
-        );
-        return article;
-    } catch(e) {
-        console.log(e)
-        throw(e);
-    }
-},
-
-// 通过id 删除一篇文章
-DeleteArticleById: async function(id) {
-    try {
-        let article = await this.deleteOne(
-            {_id: id}
-        );
-
-        return article;
-    } catch(e) {
-        console.log(e)
-        throw(e);
-    }
-},
-
-// 通过path 删除某个路径下的文章
-DeleteArticleByPathId: async function(pathId) {
-    try {
-        let result = await this.deleteMany(
-            {pathId: pathId}
-        );
-
-        return result;
-    } catch(e) {
-        console.log(e)
-        throw(e);
-    }
-},
-
-// 通过id 获取文章
-GetArticleById: async function(id) {
-    try {
-        let article = await this.findOne({
-            _id: id
-        });
-        return article;
-
-    } catch(e) {
-        console.log(e)
-        throw(e);
-    }
-},
-
-// 通过id 获取文章
-GetArticleById: async function(id) {
-    try {
-        let article = await this.findOne({
-            _id: id
-        });
-        return article;
-
-    } catch(e) {
-        console.log(e)
-        throw(e);
-    }
-},
-
-// 通过pathId 获取所有文章
-GetArticlesByPath: async function(pathId, status, limit, offset) {
-    try {
-        let article;
-        if (status){
-            article = await model.find(
-                {pathId: pathId, status:status}
-            ).limit(limit).skip(offset).sort();
-        }else{
-            article = await model.find(
-                {pathId: pathId}
-            ).limit(limit).skip(offset).sort();
+      let article = await this.updateOne(
+        { _id: id },
+        {
+          $set: {
+            title: title,
+            pictureUrl: pictureUrl,
+            content: content,
+            updated_at: Date.now()
+          }
         }
-
-        return article;
-
-    } catch(e) {
-        throw(error_code.E_DATABASE_QUERY);
+      );
+      return article;
+    } catch (e) {
+      console.log(e);
+      throw e;
     }
-},
+  },
 
-// 发布取消发布文章
-
-UpdateArticleStatusById: async function(id,  status) {
+  // 通过id 删除一篇文章
+  DeleteArticleById: async function(id) {
     try {
-        let article;
-        if (status === 1){
-            article = await  this.update(
-                {_id: id,},
-                {$set:{status: status,updated_at:Date.now(), posted_at: Date.now()}}
-            );
-        }else{
-            article = await  this.update(
-                {_id: id,},
-                {$set:{status: status, updated_at:Date.now()}}
-            );
-        }
-        return article;
-    } catch(e) {
-        console.log(e)
-        throw(e);
+      let article = await this.deleteOne({ _id: id });
+
+      return article;
+    } catch (e) {
+      console.log(e);
+      throw e;
     }
-}
+  },
+
+  // 通过path 删除某个路径下的文章
+  DeleteArticleByPathId: async function(pathId) {
+    try {
+      let result = await this.deleteMany({ pathId: pathId });
+
+      return result;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  },
+
+  // 通过id 获取文章
+  GetArticleById: async function(id) {
+    try {
+      let article = await this.findOne({
+        _id: id
+      });
+      return article;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  },
+
+  // 通过pathId 获取所有文章
+  GetArticlesByPath: async function(pathId, status, limit, offset) {
+    try {
+      let article;
+      if (status) {
+        article = await this.find({ pathId: pathId, status: status })
+          .limit(limit)
+          .skip(offset)
+          .sort();
+      } else {
+        article = await this.find({ pathId: pathId })
+          .limit(limit)
+          .skip(offset)
+          .sort();
+      }
+
+      return article;
+    } catch (e) {
+      throw error_code.E_DATABASE_QUERY;
+    }
+  },
+
+  // 发布取消发布文章
+
+  UpdateArticleStatusById: async function(id, status) {
+    try {
+      let article;
+      if (status === 1) {
+        article = await this.updateOne(
+          { _id: id },
+          {
+            $set: {
+              status: status,
+              updated_at: Date.now(),
+              posted_at: Date.now()
+            }
+          }
+        );
+      } else {
+        article = await this.updateOne(
+          { _id: id },
+          { $set: { status: status, updated_at: Date.now() } }
+        );
+      }
+      return article;
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
 };
 
 mongoose.model("Article", ArticleSchema);

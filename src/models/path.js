@@ -42,8 +42,8 @@ PathSchema.statics = {
         updated_at: tnow,
         created_at: tnow
       };
-      await this.create(path);
-      return path;
+      const result = await this.create(path);
+      return result;
     } catch (e) {
       console.log(e);
       throw e;
