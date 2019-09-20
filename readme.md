@@ -17,10 +17,10 @@ ts + react + redux
 
 - [x] import and export support （babel-register 和.babelrc）-- ok
 - [x] 登录、注册 -- ok
-- [x] 前端界面移动跟着动 -- not ok
-- [x] 文章新增,修改发布查询,发布-- ok
+- [x] 前端界面移动跟着动 -- pendding
+- [x] 文章新增,修改发布查询,发布 业务逻辑-- ok
 - [x] 修改密码 -- ok
 - [x] 用户信息,管理员权限验证,超级管理员 -- ok
-- [x] 上传图片 -- 
+- [x] 上传图片 -- ok
 - [x] 流量统计 -- 
 - [x] 部署上线 -- 

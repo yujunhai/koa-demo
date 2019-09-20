@@ -1,25 +1,26 @@
 const fs = require("fs");
-const join = require('path').join;
+const join = require("path").join;
 const koa = require("koa");
 const router = require("koa-joi-router");
-const jwtKoa = require('koa-jwt');
-const authen = require('./middle/authen')
-const models = join(__dirname, 'models');
+const jwtKoa = require("koa-jwt");
+const koaStatic = require("koa-static");
+const koaBody = require("koa-body");
+const authen = require("./middle/authen");
+const models = join(__dirname, "models");
 
 //  全局工具
 global.ROOT = process.cwd();
-global.tools = require(ROOT + '/src/common/tools.js');
-
+global.tools = require(ROOT + "/src/common/tools.js");
 
 // mongo
-require('./database/redis');
+require("./database/redis");
 fs.readdirSync(models)
   .filter(file => ~file.search(/^[^.].*\.js$/))
   .forEach(file => require(join(models, file)));
 
 const { settingConfig } = require("./config");
 const pub = router();
-require('./database/mongodb');
+require("./database/mongodb");
 
 pub.get("/", async ctx => {
   ctx.body = "hello joi!";
@@ -27,20 +28,41 @@ pub.get("/", async ctx => {
 
 const app = new koa();
 
+app.use(koaStatic(__dirname + "/public/files"));
+
+app.use(
+  koaBody({
+    multipart: true,
+    formidable: {
+      maxFileSize: 200 * 1024 * 1024 // 设置上传文件大小最大限制，默认2M
+    }
+  })
+);
+
 // Custom 401 handling if you don't want to expose koa-jwt errors to users
-app.use(function(ctx, next){
-  return next().catch((err) => {
+app.use(function(ctx, next) {
+  return next().catch(err => {
     if (401 == err.status) {
       ctx.status = 401;
-      ctx.body = 'Protected resource, use Authorization header to get access\n';
+      ctx.body = "Protected resource, use Authorization header to get access\n";
     } else {
       throw err;
     }
   });
 });
 
-app.use(jwtKoa({ secret: settingConfig.secret.sign }).unless({ path: [/^\/account^\/login/, /^\/account^\/register/, '/', '/account/register', '/account/login'] }));
-app.use(authen())
+app.use(
+  jwtKoa({ secret: settingConfig.secret.sign }).unless({
+    path: [
+      /^\/account^\/login/,
+      /^\/account^\/register/,
+      "/",
+      "/account/register",
+      "/account/login"
+    ]
+  })
+);
+app.use(authen());
 
 app.use(pub.middleware());
 
@@ -59,11 +81,16 @@ function initServer() {
       app.use(routeObj.middleware());
     });
   app.listen(settingConfig.server.port, settingConfig.server.host);
-  console.log('Server is running at ' + settingConfig.server.host + ':' + settingConfig.server.port);
+  console.log(
+    "Server is running at " +
+      settingConfig.server.host +
+      ":" +
+      settingConfig.server.port
+  );
 }
 
 try {
-  initServer()
+  initServer();
 } catch (err) {
   if (err.stack) {
     console.log(err.stack);
