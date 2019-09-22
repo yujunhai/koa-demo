@@ -21,11 +21,13 @@
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.8.1",
     "koa-body": "^4.1.1",
+    "koa-bunyan-logger": "^2.1.0",
     "koa-joi-router": "^6.0.0",
     "koa-jwt": "^3.6.0",
     "koa-static": "^5.0.0",
     "mongoose": "^5.6.11",
     "redis": "^2.8.0",
-    "util": "^0.12.1"
+    "util": "^0.12.1",
+    "uuid": "^3.3.3"
   }
 }

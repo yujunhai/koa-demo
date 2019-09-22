@@ -6,7 +6,12 @@ const jwtKoa = require("koa-jwt");
 const koaStatic = require("koa-static");
 const koaBody = require("koa-body");
 const authen = require("./middle/authen");
+const loggerPlugin = require("./middle/logger");
 const models = join(__dirname, "models");
+const { loggerConfig } = require("./config");
+var koaBunyanLogger = require('koa-bunyan-logger');
+var bunyan = koaBunyanLogger.bunyan;
+
 
 //  全局工具
 global.ROOT = process.cwd();
@@ -39,6 +44,15 @@ app.use(
   })
 );
 
+// logger
+var appLogger = bunyan.createLogger(loggerConfig)
+app.use(koaBunyanLogger(appLogger));
+app.use(koaBunyanLogger.requestIdContext());
+app.use(koaBunyanLogger.requestLogger());
+
+// 注意这里的中间件需要放在koa-body 后面，不然拿不到参数
+app.use(loggerPlugin())
+
 // Custom 401 handling if you don't want to expose koa-jwt errors to users
 app.use(function(ctx, next) {
   return next().catch(err => {
@@ -65,6 +79,7 @@ app.use(
 app.use(authen());
 
 app.use(pub.middleware());
+
 
 function initServer() {
   const rootRoutePath = `${__dirname}/routes/`;

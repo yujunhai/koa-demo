@@ -10,7 +10,7 @@ module.exports = {
     },
     redis: {
         options: {
-            host: '192.168.0.50',
+            host: '0.0.0.0',
             port: '6379',
         },
         //access token's alive time
