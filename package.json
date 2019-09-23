@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon --harmony index.js",
-    "pm": "pm2 start index.js",
+    "pm": "NODE_ENV=production pm2 start index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
