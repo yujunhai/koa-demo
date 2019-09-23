@@ -118,7 +118,20 @@ PathSchema.statics = {
       console.log(e);
       throw e;
     }
-  }
+  },
+    // 获取某个用户的路径
+    GetPathInfoByName: async function(pathName,openid) {
+      try {
+        let path = await this.findOne({
+          pathName:pathName,
+          openid: openid
+        });
+        return path;
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
+    }
 };
 
 mongoose.model("Path", PathSchema);
