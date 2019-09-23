@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon --harmony index.js",
+    "pm": "pm2 start index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -26,6 +27,7 @@
     "koa-jwt": "^3.6.0",
     "koa-static": "^5.0.0",
     "mongoose": "^5.6.11",
+    "pm2": "^3.5.1",
     "redis": "^2.8.0",
     "util": "^0.12.1",
     "uuid": "^3.3.3"
