@@ -20,3 +20,4 @@ koa + mongodb + mongoose + nodejs + redis
 - [x] 上传图片 -- ok
 - [x] 日志输出 -- ok
 - [x] 部署上线 -- ok
+- [x] 跨域问题 -- pending
