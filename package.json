@@ -27,6 +27,7 @@
     "koa-joi-router": "^6.0.0",
     "koa-jwt": "^3.6.0",
     "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6",
     "mongoose": "^5.6.11",
     "pm2": "^3.5.1",
     "redis": "^2.8.0",
