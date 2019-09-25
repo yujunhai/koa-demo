@@ -11,7 +11,7 @@ const models = join(__dirname, "models");
 const { loggerConfig } = require("./config");
 var koaBunyanLogger = require('koa-bunyan-logger');
 var bunyan = koaBunyanLogger.bunyan;
-var cors = require('koa2-cors');
+// var cors = require('koa2-cors');
 
 //  全局工具
 global.ROOT = process.cwd();
@@ -33,19 +33,19 @@ pub.get("/", async ctx => {
 
 const app = new koa();
 
-app.use(cors({
-  origin: function(ctx) {
-    if (ctx.url === '/test') {
-      return false;
-    }
-    return '*';
-  },
-  exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-  maxAge: 10,
-  credentials: true,
-  allowMethods: ['GET', 'POST', 'DELETE', 'PUT']
-  // allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'num'],
-}));
+// app.use(cors({
+//   origin: function(ctx) {
+//     if (ctx.url === '/test') {
+//       return false;
+//     }
+//     return '*';
+//   },
+//   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+//   maxAge: 10,
+//   credentials: true,
+//   allowMethods: ['GET', 'POST', 'DELETE', 'PUT']
+//   // allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'num'],
+// }));
 
 app.use(koaStatic(__dirname + "/public/files"));
 
