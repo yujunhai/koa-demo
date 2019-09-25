@@ -44,7 +44,7 @@ app.use(cors({
   maxAge: 10,
   credentials: true,
   allowMethods: ['GET', 'POST', 'DELETE', 'PUT'],
-  allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'num'],
 }));
 
 app.use(koaStatic(__dirname + "/public/files"));
