@@ -21,4 +21,4 @@ koa + mongodb + mongoose + nodejs + redis
 - [x] 日志输出 -- ok
 - [x] 部署上线 -- ok
 - [x] 跨域问题 -- ok
-- [x] 返回字段的优化 -- pengding  统一返回 status:200 data: msg:  data  status 400 代表传递参数有问题
+- [x] 返回字段的优化 -- ok  统一返回 status:200 data: msg:  data  status 400 代表传递参数有问题

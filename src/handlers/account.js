@@ -66,7 +66,9 @@ class AccountHandler {
             status: 200,
             msg: "login success",
             data: {
-              ...account,
+              name:account.name,
+              openid: account.openid,
+              type: account.type,
               access_token: token
             }
           };
