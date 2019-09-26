@@ -28,7 +28,7 @@ class AccountHandler {
         };
       } else {
         ctx.body = {
-          status: 200,
+          status: 400,
           msg: "此账户名已经被注册,请换一个进行申请"
         };
       }
