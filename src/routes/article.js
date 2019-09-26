@@ -22,7 +22,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             data: Joi.object().optional()
           }
         }
@@ -51,7 +51,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             data: Joi.object().optional()
           }
         }
@@ -74,7 +74,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             data: Joi.object().optional()
           }
         }
@@ -96,7 +96,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             datas: Joi.array().optional()
           }
         }
@@ -124,7 +124,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             data: Joi.object().optional()
           }
         }
@@ -149,7 +149,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             data: Joi.object().optional()
           }
         }
@@ -172,7 +172,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             datas: Joi.array().optional()
           }
         }
@@ -192,7 +192,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             data: Joi.object().optional()
           }
         }
@@ -214,7 +214,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             data: Joi.object().optional()
           }
         }

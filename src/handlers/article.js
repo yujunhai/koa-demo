@@ -16,8 +16,8 @@ class ArticleHandler {
         const res = await PathModel.CreatePath(pathName, openid);
         console.log(res);
         ctx.body = {
-          status: 1,
-          success: "创建路径成功",
+          status: 200,
+          msg: "创建路径成功",
           data: {
             pathName: res.pathName,
             openid: res.openid
@@ -25,8 +25,8 @@ class ArticleHandler {
         };
       } else {
         ctx.body = {
-          status: 0,
-          success: "路径已经存在"
+          status: 400,
+          msg: "路径已经存在"
         };
       }
       return next();
@@ -46,14 +46,14 @@ class ArticleHandler {
         const res = await PathModel.UpdatePathNameByID(id, pathName);
         console.log(res);
         ctx.body = {
-          status: 1,
-          success: "修改路径成功",
+          status: 200,
+          msg: "修改路径成功",
           data: res
         };
       } else {
         ctx.body = {
-          status: 0,
-          success: "传入id 不存在，错误"
+          status: 400,
+          msg: "传入id 不存在，错误"
         };
       }
       return next();
@@ -78,16 +78,16 @@ class ArticleHandler {
           console.log(result);
           if (result) {
             ctx.body = {
-              status: 1,
-              success: "删除路径成功",
+              status: 200,
+              msg: "删除路径成功",
               data: result
             };
           }
         }
       } else {
         ctx.body = {
-          status: 0,
-          success: "传入id 不存在，错误"
+          status: 400,
+          msg: "传入id 不存在，错误"
         };
       }
       return next();
@@ -105,14 +105,14 @@ class ArticleHandler {
       console.log(paths);
       if (paths.length) {
         ctx.body = {
-          status: 1,
-          success: "查询路径成功",
+          status: 200,
+          msg: "查询路径成功",
           datas: paths
         };
       } else {
         ctx.body = {
-          status: 0,
-          success: "暂无创建的路径"
+          status: 400,
+          msg: "暂无创建的路径"
         };
       }
       return next();
@@ -138,14 +138,14 @@ class ArticleHandler {
         console.log("------");
         console.log(res);
         ctx.body = {
-          status: 1,
-          success: "创建文章成功",
+          status: 200,
+          msg: "创建文章成功",
           data: res
         };
       } else {
         ctx.body = {
-          status: 0,
-          success: "pathId不存在"
+          status: 400,
+          msg: "pathId不存在"
         };
       }
       return next();
@@ -169,14 +169,14 @@ class ArticleHandler {
         );
         console.log(res);
         ctx.body = {
-          status: 1,
-          success: "更新文章成功",
+          status: 200,
+          msg: "更新文章成功",
           data: res
         };
       } else {
         ctx.body = {
-          status: 0,
-          success: "文章Id不存在"
+          status: 400,
+          msg: "文章Id不存在"
         };
       }
       return next();
@@ -199,14 +199,14 @@ class ArticleHandler {
           offset
         );
         ctx.body = {
-          status: 1,
-          success: "查询路径成功",
+          status: 200,
+          msg: "查询路径成功",
           datas: datas
         };
       } else {
         ctx.body = {
-          status: 0,
-          success: "传入pathId有误"
+          status: 400,
+          msg: "传入pathId有误"
         };
       }
       return next();
@@ -224,14 +224,14 @@ class ArticleHandler {
       if (article) {
         const res = await ArticleModel.DeleteArticleById(id);
         ctx.body = {
-          status: 1,
-          success: "成功删除文章",
+          status: 200,
+          msg: "成功删除文章",
           data: res
         };
       } else {
         ctx.body = {
-          status: 0,
-          success: "传入文章id 不存在，错误"
+          status: 400,
+          msg: "传入文章id 不存在，错误"
         };
       }
       return next();
@@ -251,14 +251,14 @@ class ArticleHandler {
       if (article) {
         const res = await ArticleModel.UpdateArticleStatusById(id, status);
         ctx.body = {
-          status: 1,
-          success: "更新发布状态成功",
+          status: 200,
+          msg: "更新发布状态成功",
           data: res
         };
       } else {
         ctx.body = {
-          status: 0,
-          success: "传入文章id 不存在，错误"
+          status: 400,
+          msg: "传入文章id 不存在，错误"
         };
       }
       return next();

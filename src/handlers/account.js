@@ -6,24 +6,30 @@ const redis = require(ROOT + "/src/database/redis/index.js");
 class AccountHandler {
   // 注册
   static async register(ctx, next) {
-    const { name, password } = ctx.request.body;
+    const { name, password, confirmPassword } = ctx.request.body;
 
     try {
+      if (password !== confirmPassword) {
+        ctx.body = {
+          status: 400,
+          msg: "两次输入密码不一致"
+        };
+        return;
+      }
       const account = await AccountModel.GetUserByName(name);
       if (!account) {
         const md5Pwd = tools.md5sum(password);
         const res = await AccountModel.CreateUserByName(name, md5Pwd);
         console.log(res);
         ctx.body = {
-          status: 1,
-          success: "注册成功",
-          open_id: res.openid,
-          name: res.name
+          status: 200,
+          msg: "注册成功",
+          data: res
         };
       } else {
         ctx.body = {
-          status: 0,
-          success: "账号已经存在"
+          status: 200,
+          msg: "此账户名已经被注册,请换一个进行申请"
         };
       }
       return next();
@@ -40,15 +46,15 @@ class AccountHandler {
       const account = await AccountModel.GetUserByName(name);
       if (!account) {
         ctx.body = {
-          status: 0,
-          success: "没有此用户信息"
+          status: 400,
+          msg: "没有此用户信息"
         };
       } else {
         const md5Pwd = tools.md5sum(password);
         if (password !== account.password && md5Pwd !== account.password) {
           ctx.body = {
-            status: 2,
-            success: "登录信息密码不对"
+            status: 400,
+            msg: "登录信息密码不对"
           };
         } else {
           // 先去查找redis 根据openid 有没有token
@@ -57,12 +63,11 @@ class AccountHandler {
             token = tools.GenerateAccessToken(account);
           }
           ctx.body = {
-            status: 1,
-            success: "login success",
+            status: 200,
+            msg: "login success",
             data: {
-              access_token: token,
-              name: account.name,
-              openid: account.openid
+              ...account,
+              access_token: token
             }
           };
         }
@@ -85,29 +90,29 @@ class AccountHandler {
     try {
       if (newPassword !== confirmPassword) {
         ctx.body = {
-          status: 3,
-          success: "输入新密码和确认密码不符"
+          status: 400,
+          msg: "输入新密码和确认密码不一致"
         };
         return;
       }
       const account = await AccountModel.GetUserByOpenid(openid);
       if (!account) {
         ctx.body = {
-          status: 0,
-          success: "没有此用户信息"
+          status: 400,
+          msg: "没有此用户信息"
         };
       } else {
         const md5Pwd = tools.md5sum(oldPassword);
         if (oldPassword !== account.password && md5Pwd !== account.password) {
           ctx.body = {
-            status: 2,
-            success: "输入旧密码不对"
+            status: 400,
+            msg: "输入旧密码不对"
           };
         } else {
           const result = AccountModel.UpdatePassword(openid, newPassword);
           if (result) {
             ctx.body = {
-              status: 1,
+              status: 200,
               success: "成功修改密码",
               data: result
             };
@@ -128,23 +133,23 @@ class AccountHandler {
       const account = await AccountModel.GetUserByOpenid(openid);
       if (!account) {
         ctx.body = {
-          status: 0,
-          success: "传入openid有误"
+          status: 400,
+          msg: "传入openid有误"
         };
       } else {
         if (account.type === "super") {
           const res = await AccountModel.UpdateType(userOpenId);
           if (res) {
             ctx.body = {
-              status: 1,
+              status: 200,
               success: "修改权限成功",
               data: res
             };
           }
         } else {
           ctx.body = {
-            status: 1,
-            success: "您的权限不够"
+            status: 400,
+            msg: "您的权限不够"
           };
         }
       }
@@ -164,20 +169,20 @@ class AccountHandler {
         if (account.type === "super" || account.type === "admin") {
           const res = await AccountModel.GetUsers(limit, offset);
           ctx.body = {
-            status: 1,
-            success: "查询所有用户成功",
+            status: 200,
+            msg: "查询所有用户成功",
             datas: res
           };
         } else {
           ctx.body = {
-            status: 1,
-            success: "您无权获取所有用户"
+            status: 400,
+            msg: "您无权获取所有用户"
           };
         }
       } else {
         ctx.body = {
-          status: 0,
-          success: "账号不存在"
+          status: 400,
+          msg: "openid不存在"
         };
       }
       return next();

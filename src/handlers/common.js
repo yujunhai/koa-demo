@@ -16,8 +16,8 @@ class CommonHandler {
       //     ctx.body = "上传成功！";
       //   });
       ctx.body = {
-        status: 0,
-        success: "上传成功",
+        status: 200,
+        msg: "上传成功",
         data: {
           url: `${define.serverIp}/${file.name}`
         }
@@ -43,8 +43,8 @@ class CommonHandler {
         datas.push(`${define.serverIp}/${file.name}`)
       }
       ctx.body = {
-        status: 0,
-        success: "上传成功",
+        status: 200,
+        msg: "上传成功",
         datas: datas
       };
       return next();

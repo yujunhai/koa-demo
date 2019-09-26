@@ -13,6 +13,20 @@ module.exports = {
         poolSize: 10,
         useNewUrlParser: true,
         // disable auto create indexes
-        autoIndex: false
+        autoIndex: false,
+        server: { 
+            socketOptions: { 
+                keepAlive: 1, 
+                connectTimeoutMS: 30000 
+            } ,
+            reconnectTries:30,
+            reconnectInterval:3000
+        }, 
+        replset: { 
+            socketOptions: { 
+                keepAlive: 1, 
+                connectTimeoutMS: 30000 
+            } 
+        } 
     }
 };

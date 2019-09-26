@@ -15,16 +15,18 @@ const routes = [
           .required(),
         password: Joi.string()
           .max(100)
-          .required()
+          .required(),
+        confirmPassword: Joi.string()
+        .max(100)
+        .required()
       },
       type: "form",
       output: {
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
-            open_id: Joi.string().optional(),
-            name: Joi.string().optional()
+            msg: Joi.string().required(),
+            data: Joi.object().optional().default({})
           }
         }
       }
@@ -50,7 +52,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             data: Joi.object()
               .optional()
               .default({})
@@ -78,35 +80,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
-            data: Joi.object()
-              .optional()
-              .default({})
-          }
-        }
-      }
-    },
-    handler: AccountHandler.UpdatePassword
-  },
-  // 修改密码
-  {
-    method: "post",
-    path: "/UpdatePassword",
-    validate: {
-      body: {
-        openid: Joi.string()
-          .max(100)
-          .required(),
-        oldPassword: Joi.string().required(),
-        newPassword: Joi.string().required(),
-        confirmPassword: Joi.string().required()
-      },
-      type: "form",
-      output: {
-        200: {
-          body: {
-            status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             data: Joi.object()
               .optional()
               .default({})
@@ -134,7 +108,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             data: Joi.object()
               .optional()
               .default({})
@@ -160,7 +134,7 @@ const routes = [
         200: {
           body: {
             status: Joi.number().required(),
-            success: Joi.string().required(),
+            msg: Joi.string().required(),
             datas: Joi.array()
           }
         }
