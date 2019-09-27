@@ -215,6 +215,25 @@ class ArticleHandler {
     }
   }
 
+    // 查询发布文章
+    static async GetPublishArticles(ctx, next) {
+      const { limit, offset } = ctx.request.query;
+      try {
+          const datas = await ArticleModel.GetPublishArticles(
+            limit,
+            offset
+          );
+          ctx.body = {
+            status: 200,
+            msg: "查询发布文章成功",
+            datas: datas
+          };
+        return next();
+      } catch (e) {
+        throw e;
+      }
+    }
+
   // 删除某一篇文章
   static async DeleteArticleById(ctx, next) {
     const { id } = ctx.request.query;

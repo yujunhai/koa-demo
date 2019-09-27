@@ -20,7 +20,8 @@ const PathSchema = new Schema({
     trim: true,
     maxlength: 400,
     ref: "Account"
-  }
+  },
+  author: String
 });
 
 PathSchema.index({ openid: 1 });
@@ -33,14 +34,15 @@ PathSchema.index({ openid: 1 });
 
 PathSchema.statics = {
   // 创建路径
-  CreatePath: async function(pathName, openid) {
+  CreatePath: async function(pathName, openid, author) {
     try {
       let tnow = Date.now();
       let path = {
         pathName: pathName,
         openid: openid,
         updated_at: tnow,
-        created_at: tnow
+        created_at: tnow,
+        author: author
       };
       const result = await this.create(path);
       return result;

@@ -25,7 +25,8 @@ const ArticleSchema = new Schema({
     trim: true,
     maxlength: 400,
     ref: "Account"
-  }
+  },
+  author: String
 });
 
 ArticleSchema.index({ openid: 1 });
@@ -38,7 +39,14 @@ ArticleSchema.index({ openid: 1 });
 
 ArticleSchema.statics = {
   // 创建文章
-  CreateArticle: async function(pathId, title, content, pictureUrl, openid) {
+  CreateArticle: async function(
+    pathId,
+    title,
+    content,
+    pictureUrl,
+    openid,
+    author
+  ) {
     try {
       let tnow = Date.now();
       let article = {
@@ -49,6 +57,7 @@ ArticleSchema.statics = {
         title,
         content,
         pictureUrl,
+        author: author,
         status: 0
       };
       const result = await this.create(article);
@@ -132,10 +141,22 @@ ArticleSchema.statics = {
           .skip(offset)
           .sort();
       }
-
       return article;
     } catch (e) {
-      throw error_code.E_DATABASE_QUERY;
+      throw e;
+    }
+  },
+
+  // 获取发布文章
+  GetPublishArticles: async function(limit, offset) {
+    try {
+      let article = await this.find()
+        .limit(limit)
+        .skip(offset)
+        .sort();
+      return article;
+    } catch (e) {
+      throw e;
     }
   },
 

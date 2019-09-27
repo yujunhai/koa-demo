@@ -9,9 +9,9 @@ const authen = require("./middle/authen");
 const loggerPlugin = require("./middle/logger");
 const models = join(__dirname, "models");
 const { loggerConfig } = require("./config");
-var koaBunyanLogger = require('koa-bunyan-logger');
+var koaBunyanLogger = require("koa-bunyan-logger");
 var bunyan = koaBunyanLogger.bunyan;
-var cors = require('koa2-cors');
+var cors = require("koa2-cors");
 
 //  全局工具
 global.ROOT = process.cwd();
@@ -33,24 +33,9 @@ pub.get("/", async ctx => {
 
 const app = new koa();
 
-app.use(cors(
-//   {
-//   origin: function(ctx) {
-//     if (ctx.url === '/test') {
-//       return false;
-//     }
-//     return '*';
-//   },
-//   exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-//   maxAge: 10,
-//   credentials: true,
-//   allowMethods: ['GET', 'POST', 'DELETE', 'PUT']
-//   // allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'num'],
-// }
-));
+app.use(cors());
 
 app.use(koaStatic(__dirname + "/public/files"));
-
 
 app.use(
   koaBody({
@@ -62,13 +47,26 @@ app.use(
 );
 
 // logger
-var appLogger = bunyan.createLogger(loggerConfig)
+var appLogger = bunyan.createLogger(loggerConfig);
 app.use(koaBunyanLogger(appLogger));
 app.use(koaBunyanLogger.requestIdContext());
 app.use(koaBunyanLogger.requestLogger());
 
 // 注意这里的中间件需要放在koa-body 后面，不然拿不到参数
-app.use(loggerPlugin())
+app.use(loggerPlugin());
+
+app.use(
+  jwtKoa({ secret: settingConfig.secret.sign }).unless({
+    path: [
+      /^\/account^\/login/,
+      /^\/account^\/register/,
+      "/",
+      "/account/register",
+      "/account/login",
+      "/article/GetPublishArticles"
+    ]
+  })
+);
 
 // Custom 401 handling if you don't want to expose koa-jwt errors to users
 app.use(function(ctx, next) {
@@ -82,21 +80,9 @@ app.use(function(ctx, next) {
   });
 });
 
-app.use(
-  jwtKoa({ secret: settingConfig.secret.sign }).unless({
-    path: [
-      /^\/account^\/login/,
-      /^\/account^\/register/,
-      "/",
-      "/account/register",
-      "/account/login"
-    ]
-  })
-);
 app.use(authen());
 
 app.use(pub.middleware());
-
 
 function initServer() {
   const rootRoutePath = `${__dirname}/routes/`;

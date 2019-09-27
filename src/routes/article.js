@@ -15,6 +15,9 @@ const routes = [
           .required(),
         openid: Joi.string()
           .max(100)
+          .required(),
+        author: Joi.string()
+          .max(100)
           .required()
       },
       type: "form",
@@ -117,6 +120,9 @@ const routes = [
         pictureUrl: Joi.string(),
         openid: Joi.string()
           .max(100)
+          .required(),
+        author: Joi.string()
+          .max(100)
           .required()
       },
       type: "form",
@@ -180,6 +186,27 @@ const routes = [
     },
     handler: ArticleHandler.GetArticlesByPath
   },
+  // 查询发布的文章
+  {
+    method: "get",
+    path: "/GetPublishArticles",
+    validate: {
+      query: {
+        limit: Joi.number(),
+        offset: Joi.number()
+      },
+      output: {
+        200: {
+          body: {
+            status: Joi.number().required(),
+            msg: Joi.string().required(),
+            datas: Joi.array().optional()
+          }
+        }
+      }
+    },
+    handler: ArticleHandler.GetPublishArticles
+  },
   //  删除一篇文章
   {
     method: "delete",
@@ -221,7 +248,7 @@ const routes = [
       }
     },
     handler: ArticleHandler.UpdateArticleStatusById
-  },
+  }
 ];
 article.route(routes);
 module.exports = article;
