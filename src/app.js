@@ -55,18 +55,6 @@ app.use(koaBunyanLogger.requestLogger());
 // 注意这里的中间件需要放在koa-body 后面，不然拿不到参数
 app.use(loggerPlugin());
 
-app.use(
-  jwtKoa({ secret: settingConfig.secret.sign }).unless({
-    path: [
-      /^\/account^\/login/,
-      /^\/account^\/register/,
-      "/",
-      "/account/register",
-      "/account/login",
-      "/article/GetPublishArticles"
-    ]
-  })
-);
 
 // Custom 401 handling if you don't want to expose koa-jwt errors to users
 app.use(function(ctx, next) {
@@ -79,6 +67,19 @@ app.use(function(ctx, next) {
     }
   });
 });
+
+app.use(
+  jwtKoa({ secret: settingConfig.secret.sign }).unless({
+    path: [
+      /^\/account^\/login/,
+      /^\/account^\/register/,
+      "/",
+      "/account/register",
+      "/account/login",
+      "/article/GetPublishArticles"
+    ]
+  })
+);
 
 app.use(authen());
 
