@@ -5,6 +5,8 @@ mongod
 redis-server
 redis-cli (config set protected-mode no)
 
+
+npx-kill 27017
 服务端长启动mongo
 mongod --fork --logpath /data/log/mongodb/mongo.log
 
@@ -26,4 +28,5 @@ koa + mongodb + mongoose + nodejs + redis
 - [x] 跨域问题 -- ok
 - [x] 返回字段的优化 -- ok  统一返回 status:200 data: msg:  data  status 400 代表传递参数有问题
 - [x] 点赞功能 -- 
+- [x] 推荐功能 -- 
 <!-- - [x] 文章有公开和加密功能功能 --  加密的文章只有管理员和admin -->

@@ -17,7 +17,7 @@ const ArticleSchema = new Schema({
   title: String,
   content: String,
   pictureUrl: String,
-  status: String, // 0 待发布 1 已发布
+  status: Number, // 0 待发布 1 已发布
   published_at: Date,
   openid: {
     type: String,
@@ -130,18 +130,21 @@ ArticleSchema.statics = {
   GetArticlesByPath: async function(pathId, status, limit, offset) {
     try {
       let article;
+      let total;
       if (status) {
         article = await this.find({ pathId: pathId, status: status })
           .limit(limit)
           .skip(offset)
           .sort();
+          total = await this.find({ pathId: pathId, status: status }).count
       } else {
         article = await this.find({ pathId: pathId })
           .limit(limit)
           .skip(offset)
           .sort();
+        total = await this.find({ pathId: pathId }).total
       }
-      return article;
+      return {article, total};
     } catch (e) {
       throw e;
     }
@@ -150,11 +153,12 @@ ArticleSchema.statics = {
   // 获取发布文章
   GetPublishArticles: async function(limit, offset) {
     try {
-      let article = await this.find()
+      let article = await this.find({status: 1})
         .limit(limit)
         .skip(offset)
         .sort();
-      return article;
+        let total = await this.find({status: 1}).count()
+      return {article, total};
     } catch (e) {
       throw e;
     }

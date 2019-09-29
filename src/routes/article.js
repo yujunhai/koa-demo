@@ -93,14 +93,16 @@ const routes = [
       query: {
         openid: Joi.string()
           .max(100)
-          .required()
+          .required(),
+        limit: Joi.number(),
+        offset: Joi.number()
       },
       output: {
         200: {
           body: {
             status: Joi.number().required(),
             msg: Joi.string().required(),
-            datas: Joi.array().optional()
+            data: Joi.object().optional()
           }
         }
       }
@@ -179,7 +181,7 @@ const routes = [
           body: {
             status: Joi.number().required(),
             msg: Joi.string().required(),
-            datas: Joi.array().optional()
+            data: Joi.object().optional()
           }
         }
       }
@@ -200,7 +202,7 @@ const routes = [
           body: {
             status: Joi.number().required(),
             msg: Joi.string().required(),
-            datas: Joi.array().optional()
+            data: Joi.object().optional()
           }
         }
       }

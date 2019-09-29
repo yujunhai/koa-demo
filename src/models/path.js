@@ -74,15 +74,17 @@ PathSchema.statics = {
       throw e;
     }
   },
-  // 获取路径
+  // 获取路径  所有的在首页展示的
   GetPathInfos: async function(path_name_condition, limit, offset) {
     try {
       let paths;
+      let total;
       if (!path_name_condition) {
         paths = await this.find()
           .limit(limit)
           .skip(offset)
           .sort({ created_at: 1 });
+        total = await this.find().count()
       } else {
         paths = await this.find({
           pathName: { $regex: `${path_name_condition}` }
@@ -90,8 +92,11 @@ PathSchema.statics = {
           .limit(limit)
           .skip(offset)
           .sort({ created_at: 1 });
+        total = await this.find({
+          pathName: { $regex: `${path_name_condition}` }
+        }).count()
       }
-      return paths;
+      return {paths, total};
     } catch (e) {
       console.log(e);
       throw e;
@@ -110,12 +115,15 @@ PathSchema.statics = {
     }
   },
   // 获取某个用户的路径
-  GetPathInfoByOpenId: async function(openid) {
+  GetPathInfoByOpenId: async function(openid,limit, offset) {
     try {
-      let path = await this.find({
+      let paths = await this.find({
         openid: openid
       });
-      return path;
+      let total = await this.find({
+        openid: openid
+      }).count()
+      return {paths, total};
     } catch (e) {
       console.log(e);
       throw e;

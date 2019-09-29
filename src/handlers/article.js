@@ -98,16 +98,20 @@ class ArticleHandler {
 
   // 查询某个用户下的所有路径
   static async pathsInfoByOpenId(ctx, next) {
-    const { openid } = ctx.request.query;
+    const { openid, limit, offset } = ctx.request.query;
 
     try {
-      const paths = await PathModel.GetPathInfoByOpenId(openid);
+      const obj = await PathModel.GetPathInfoByOpenId(openid,limit, offset);
       console.log(paths);
-      if (paths.length) {
+      if (obj.paths.length) {
         ctx.body = {
           status: 200,
           msg: "查询路径成功",
-          datas: paths
+          data: {datas: obj.paths,
+          total:obj.total,
+          limit,
+          offset
+        }
         };
       } else {
         ctx.body = {
@@ -192,7 +196,7 @@ class ArticleHandler {
     try {
       const path = await PathModel.GetPathInfoByID(pathId);
       if (path) {
-        const datas = await ArticleModel.GetArticlesByPath(
+        const obj = await ArticleModel.GetArticlesByPath(
           pathId,
           status,
           limit,
@@ -201,7 +205,11 @@ class ArticleHandler {
         ctx.body = {
           status: 200,
           msg: "查询路径成功",
-          datas: datas
+          data: {datas: obj.article, page: {
+            total: obj.total,
+            limit,
+            offset
+          }}
         };
       } else {
         ctx.body = {
@@ -219,14 +227,21 @@ class ArticleHandler {
     static async GetPublishArticles(ctx, next) {
       const { limit, offset } = ctx.request.query;
       try {
-          const datas = await ArticleModel.GetPublishArticles(
+          const obj = await ArticleModel.GetPublishArticles(
             limit,
             offset
           );
           ctx.body = {
             status: 200,
             msg: "查询发布文章成功",
-            datas: datas
+            data: {
+              datas: obj.article,
+              page: {
+                limit,
+                offset,
+                total: obj.total
+              }
+            }
           };
         return next();
       } catch (e) {
