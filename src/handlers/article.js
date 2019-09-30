@@ -101,17 +101,13 @@ class ArticleHandler {
     const { openid, limit, offset } = ctx.request.query;
 
     try {
-      const obj = await PathModel.GetPathInfoByOpenId(openid,limit, offset);
-      console.log(paths);
+      const obj = await PathModel.GetPathInfoByOpenId(openid, limit, offset);
+      console.log(obj);
       if (obj.paths.length) {
         ctx.body = {
           status: 200,
           msg: "查询路径成功",
-          data: {datas: obj.paths,
-          total:obj.total,
-          limit,
-          offset
-        }
+          data: { datas: obj.paths, page: { total: obj.total, limit, offset } }
         };
       } else {
         ctx.body = {
@@ -205,11 +201,14 @@ class ArticleHandler {
         ctx.body = {
           status: 200,
           msg: "查询路径成功",
-          data: {datas: obj.article, page: {
-            total: obj.total,
-            limit,
-            offset
-          }}
+          data: {
+            datas: obj.article,
+            page: {
+              total: obj.total,
+              limit,
+              offset
+            }
+          }
         };
       } else {
         ctx.body = {
@@ -223,31 +222,28 @@ class ArticleHandler {
     }
   }
 
-    // 查询发布文章
-    static async GetPublishArticles(ctx, next) {
-      const { limit, offset } = ctx.request.query;
-      try {
-          const obj = await ArticleModel.GetPublishArticles(
+  // 查询发布文章
+  static async GetPublishArticles(ctx, next) {
+    const { limit, offset } = ctx.request.query;
+    try {
+      const obj = await ArticleModel.GetPublishArticles(limit, offset);
+      ctx.body = {
+        status: 200,
+        msg: "查询发布文章成功",
+        data: {
+          datas: obj.article,
+          page: {
             limit,
-            offset
-          );
-          ctx.body = {
-            status: 200,
-            msg: "查询发布文章成功",
-            data: {
-              datas: obj.article,
-              page: {
-                limit,
-                offset,
-                total: obj.total
-              }
-            }
-          };
-        return next();
-      } catch (e) {
-        throw e;
-      }
+            offset,
+            total: obj.total
+          }
+        }
+      };
+      return next();
+    } catch (e) {
+      throw e;
     }
+  }
 
   // 删除某一篇文章
   static async DeleteArticleById(ctx, next) {
@@ -279,9 +275,9 @@ class ArticleHandler {
     const { id, status } = ctx.request.body;
 
     try {
-      console.log(id)
+      console.log(id);
       const article = await ArticleModel.GetArticleById(id);
-      console.log(article)
+      console.log(article);
       if (article) {
         const res = await ArticleModel.UpdateArticleStatusById(id, status);
         ctx.body = {
