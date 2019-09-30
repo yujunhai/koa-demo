@@ -119,7 +119,9 @@ PathSchema.statics = {
     try {
       let paths = await this.find({
         openid: openid
-      });
+      }).limit(limit)
+      .skip(offset)
+      .sort({ created_at: 1 });
       let total = await this.find({
         openid: openid
       }).count()
