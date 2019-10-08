@@ -18,10 +18,7 @@ class ArticleHandler {
         ctx.body = {
           status: 200,
           msg: "创建路径成功",
-          data: {
-            pathName: res.pathName,
-            openid: res.openid
-          }
+          data: res
         };
       } else {
         ctx.body = {
