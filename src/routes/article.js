@@ -172,7 +172,7 @@ const routes = [
     validate: {
       query: {
         pathId: Joi.string().required(),
-        status: Joi.number(),
+        status: Joi.number().optional(),
         limit: Joi.number(),
         offset: Joi.number()
       },

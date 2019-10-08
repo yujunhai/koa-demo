@@ -142,7 +142,7 @@ ArticleSchema.statics = {
           .limit(limit)
           .skip(offset)
           .sort();
-        total = await this.find({ pathId: pathId }).total
+        total = await this.find({ pathId: pathId }).count
       }
       return {article, total};
     } catch (e) {
