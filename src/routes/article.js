@@ -188,6 +188,26 @@ const routes = [
     },
     handler: ArticleHandler.GetArticlesByPath
   },
+    // 根据id查询具体文章
+    {
+      method: "get",
+      path: "/GetArticlesById",
+      validate: {
+        query: {
+          id: Joi.string().required()
+        },
+        output: {
+          200: {
+            body: {
+              status: Joi.number().required(),
+              msg: Joi.string().required(),
+              data: Joi.object().optional()
+            }
+          }
+        }
+      },
+      handler: ArticleHandler.GetArticlesById
+    },
   // 查询发布的文章
   {
     method: "get",

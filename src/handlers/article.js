@@ -219,6 +219,32 @@ class ArticleHandler {
     }
   }
 
+    // 查询某个id下的文章
+    static async GetArticlesById(ctx, next) {
+      const { id } = ctx.request.query;
+  
+      try {
+          const obj = await ArticleModel.GetArticleById(
+            id
+          );
+          if(obj) {
+            ctx.body = {
+              status: 200,
+              msg: "查询文章成功",
+              data: obj
+            };
+          } else {
+            ctx.body = {
+              status: 400,
+              msg: "传入id有误"
+            };
+          }
+        return next();
+      } catch (e) {
+        throw e;
+      }
+    }
+
   // 查询发布文章
   static async GetPublishArticles(ctx, next) {
     const { limit, offset } = ctx.request.query;
