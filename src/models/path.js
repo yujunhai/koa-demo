@@ -83,7 +83,7 @@ PathSchema.statics = {
         paths = await this.find()
           .limit(limit)
           .skip(offset)
-          .sort({ created_at: 1 });
+          .sort({ updated_at: -1 });
         total = await this.find().count()
       } else {
         paths = await this.find({
@@ -91,7 +91,7 @@ PathSchema.statics = {
         })
           .limit(limit)
           .skip(offset)
-          .sort({ created_at: 1 });
+          .sort({ updated_at: -1 });
         total = await this.find({
           pathName: { $regex: `${path_name_condition}` }
         }).count()

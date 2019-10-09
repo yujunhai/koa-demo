@@ -135,13 +135,13 @@ ArticleSchema.statics = {
         article = await this.find({ pathId: pathId, status: status })
           .limit(limit)
           .skip(offset)
-          .sort();
+          .sort({ updated_at: -1 });
           total = await this.find({ pathId: pathId, status: status }).count
       } else {
         article = await this.find({ pathId: pathId })
           .limit(limit)
           .skip(offset)
-          .sort();
+          .sort({ updated_at: -1 });
         total = await this.find({ pathId: pathId }).count
       }
       return {article, total};
@@ -156,7 +156,7 @@ ArticleSchema.statics = {
       let article = await this.find({status: 1})
         .limit(limit)
         .skip(offset)
-        .sort();
+        .sort({ updated_at: -1 });
         let total = await this.find({status: 1}).count()
       return {article, total};
     } catch (e) {
