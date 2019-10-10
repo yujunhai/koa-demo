@@ -4,7 +4,7 @@ class CommonHandler {
   // 上传文件--单个
   static async uplodFile(ctx, next) {
     try {
-      const file = ctx.request.files[""]; // 获取上传文件
+      const file = ctx.request.files.file; // 获取上传文件
       // 创建可读流
       const reader = fs.createReadStream(file.path);
       let filePath = `${ROOT}/src/public/files/${file.name}`;
@@ -30,7 +30,7 @@ class CommonHandler {
 
   static async uplodFiles(ctx, next) {
     try {
-      const files = ctx.request.files[""]; // 获取上传文件
+      const files = ctx.request.files.file; // 获取上传文件
       let datas = []
       for (let file of files) {
         // 创建可读流
