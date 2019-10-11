@@ -120,7 +120,7 @@ class ArticleHandler {
 
   // 创建文章
   static async CreateArticle(ctx, next) {
-    const { pathId, title, content, pictureUrl, openid } = ctx.request.body;
+    const { pathId, title, content, pictureUrl, openid, author } = ctx.request.body;
 
     try {
       const path = await PathModel.GetPathInfoByID(pathId);
@@ -130,7 +130,8 @@ class ArticleHandler {
           title,
           content,
           pictureUrl,
-          openid
+          openid,
+          author
         );
         console.log("------");
         console.log(res);
