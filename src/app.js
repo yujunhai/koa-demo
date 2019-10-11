@@ -76,7 +76,8 @@ app.use(
       "/",
       "/account/register",
       "/account/login",
-      "/article/GetPublishArticles"
+      "/article/GetPublishArticles",
+      "/article/GetArticlesById"
     ]
   })
 );

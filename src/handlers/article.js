@@ -108,8 +108,16 @@ class ArticleHandler {
         };
       } else {
         ctx.body = {
-          status: 400,
-          msg: "暂无创建的路径"
+          status: 200,
+          msg: "暂无创建的路径",
+          data: {
+            datas: [],
+            page: {
+              total: 0,
+              limit,
+              offset
+            }
+          }
         };
       }
       return next();
