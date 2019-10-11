@@ -151,7 +151,7 @@ const routes = [
         title: Joi.string().required(),
         content: Joi.string().required(),
         pictureUrl: Joi.string().optional(),
-        abstract: Joi.string().optional()
+        abstract: Joi.string().required()
       },
       type: "form",
       output: {
