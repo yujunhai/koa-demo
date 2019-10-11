@@ -17,6 +17,7 @@ const ArticleSchema = new Schema({
   posted_at: { type: Date },
   title: String,
   content: String,
+  abstract: String,
   pictureUrl: String,
   status: Number, // 0 待发布 1 已发布
   published_at: Date,
@@ -46,7 +47,7 @@ ArticleSchema.statics = {
     content,
     pictureUrl,
     openid,
-    author
+    author,
   ) {
     try {
       let tnow = Date.now();
@@ -70,7 +71,7 @@ ArticleSchema.statics = {
   },
 
   // 更新文章
-  UpdateArticleInfoById: async function(id, title, content, pictureUrl) {
+  UpdateArticleInfoById: async function(id, title, content, pictureUrl, abstract) {
     try {
       let article = await this.updateOne(
         { _id: id },
@@ -79,7 +80,8 @@ ArticleSchema.statics = {
             title: title,
             pictureUrl: pictureUrl,
             content: content,
-            updated_at: Date.now()
+            updated_at: Date.now(),
+            abstract: abstract
           }
         }
       );

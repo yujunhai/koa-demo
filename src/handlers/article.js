@@ -153,7 +153,7 @@ class ArticleHandler {
 
   // 更新文章
   static async UpdateArticleInfoById(ctx, next) {
-    const { id, title, content, pictureUrl } = ctx.request.body;
+    const { id, title, content, pictureUrl, abstract } = ctx.request.body;
 
     try {
       const path = await ArticleModel.GetArticleById(id);
@@ -162,7 +162,8 @@ class ArticleHandler {
           id,
           title,
           content,
-          pictureUrl
+          pictureUrl,
+          abstract
         );
         console.log(res);
         ctx.body = {

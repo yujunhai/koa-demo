@@ -150,7 +150,8 @@ const routes = [
         id: Joi.string().required(),
         title: Joi.string().required(),
         content: Joi.string().required(),
-        pictureUrl: Joi.string().optional()
+        pictureUrl: Joi.string().optional(),
+        abstract: Joi.string().optional()
       },
       type: "form",
       output: {
