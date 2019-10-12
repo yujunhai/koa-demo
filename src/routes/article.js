@@ -230,6 +230,28 @@ const routes = [
     },
     handler: ArticleHandler.GetPublishArticles
   },
+  // GetPublishArticlesByOpenId 查询某个人发布的文章
+  {
+    method: "get",
+    path: "/GetPublishArticlesByOpenId",
+    validate: {
+      query: {
+        openid: Joi.string().required(),
+        limit: Joi.number(),
+        offset: Joi.number()
+      },
+      output: {
+        200: {
+          body: {
+            status: Joi.number().required(),
+            msg: Joi.string().required(),
+            data: Joi.object().optional()
+          }
+        }
+      }
+    },
+    handler: ArticleHandler.GetPublishArticlesByOpenId
+  },
   //  删除一篇文章
   {
     method: "delete",

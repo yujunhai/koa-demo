@@ -167,6 +167,20 @@ ArticleSchema.statics = {
     }
   },
 
+    // 获取某个用户的发布文章
+    GetPublishArticlesByOpenId: async function(openid, limit, offset) {
+      try {
+        let article = await this.find({ status: 1, openid })
+          .limit(limit)
+          .skip(offset)
+          .sort({ updated_at: -1 });
+        let total = await this.find({ status: 1, openid }).count();
+        return { article, total };
+      } catch (e) {
+        throw e;
+      }
+    },
+
   // 发布取消发布文章
 
   UpdateArticleStatusById: async function(id, status) {

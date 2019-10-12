@@ -278,6 +278,30 @@ class ArticleHandler {
     }
   }
 
+  // GetPublishArticlesByOpenId
+    // 查询发布文章
+    static async GetPublishArticlesByOpenId(ctx, next) {
+      const { openid, limit, offset } = ctx.request.query;
+      try {
+        const obj = await ArticleModel.GetPublishArticlesByOpenId(openid, limit, offset);
+        ctx.body = {
+          status: 200,
+          msg: "查询发布文章成功",
+          data: {
+            datas: obj.article,
+            page: {
+              limit,
+              offset,
+              total: obj.total
+            }
+          }
+        };
+        return next();
+      } catch (e) {
+        throw e;
+      }
+    }
+
   // 删除某一篇文章
   static async DeleteArticleById(ctx, next) {
     const { id } = ctx.request.query;
