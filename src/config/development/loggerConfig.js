@@ -11,7 +11,7 @@ module.exports = {
       {
           type: 'file',
           // path: path.join('/usr/src/app/', 'logs/log-%Y-%m-%d.log'),
-          path: `${process.cwd()}/logs/log-${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}.log`,
+          path: `${process.cwd()}/logs/log-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}.log`,
           period: '1d',          // daily rotation
           totalFiles: 100,       // keep 10 back copies
           rotateExisting: true,  // Give ourselves a clean file when we start up, based on period

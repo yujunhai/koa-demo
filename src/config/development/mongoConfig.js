@@ -10,7 +10,7 @@ module.exports = {
     },
     options: {
         auto_reconnect: true,
-        poolSize: 10,
+        poolSize: 100,
         useNewUrlParser: true,
         // disable auto create indexes
         autoIndex: false
