@@ -2,7 +2,7 @@
 
 module.exports = {
     server: {
-        port: 3333,
+        port: 8888,
         host: '0.0.0.0'
     },
     secret: {
