@@ -8,7 +8,9 @@
     "pm": "NODE_ENV=production && pm2 start index.js",
     "stop": "pm2 stop all",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "list": "pm2 list"
+    "list": "pm2 list",
+    "logs": "pm2 logs",
+    "show": "pm2 show 0"
   },
   "author": "",
   "license": "ISC",
