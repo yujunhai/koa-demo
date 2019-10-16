@@ -8,7 +8,7 @@ redis-cli (config set protected-mode no)
 
 npx-kill 27017
 服务端长启动mongo
-mongod --fork --logpath /data/log/mongodb/mongo.log
+mongod --fork --logpath /data/log/mongodb/mongo.log --bind_ip 0.0.0.0
 
 ## 后台技术栈
 koa + mongodb + mongoose + nodejs + redis
